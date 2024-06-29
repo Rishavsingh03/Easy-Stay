@@ -18,13 +18,13 @@ The frontend of Easy Stay is developed using React with Vite as the build tool. 
    cd frontend
    npm install
    npm run dev
-Backend
+## Backend
 The backend of Easy Stay is built using Node.js with Express framework and MongoDB as the database. It handles authentication, property listing, and booking functionalities.
-Technologies Used
-Node.js
-Express
-MongoDB
-Getting Started(set up the env variables like port and the moongodb Database)
+## Technologies Used
+-Node.js
+-Express
+-MongoDB
+### Getting Started(set up the env variables like port and the moongodb Database)
 ```
     cd ../backend
     nodemon index.js
