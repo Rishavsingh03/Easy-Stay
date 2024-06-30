@@ -1,6 +1,6 @@
 # Easy Stay
 
-Easy Stay is a web application that allows users to list properties for renting. The project is built using React Vite for the frontend and Node.js with Express and MongoDB for the backend.
+Easy Stay is a web application that allows users to list properties for bookings. The project is built using React Vite for the frontend and Node.js with Express and MongoDB for the backend.
 
 ## Frontend
 
