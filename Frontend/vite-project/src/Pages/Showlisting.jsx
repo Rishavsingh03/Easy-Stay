@@ -74,7 +74,10 @@ function Showlisting() {
           body: JSON.stringify(review),
         })
         if(result.ok){
+         
+          window.location.reload();
           navigate(`/listings/${id}`);
+          toast.success("Review Added");
         }
       }
       catch(e){
@@ -90,7 +93,10 @@ function Showlisting() {
                     'Content-Type': 'application/json',
             },
         });
+       
+        window.location.reload();
         navigate(`/listings/${id}`);
+        toast.success("Review Deleted");
       }
       catch(e){
         console.log("can not delete review");
