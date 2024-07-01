@@ -5,8 +5,14 @@ app.use(cors());
 const ExpressError=require("./utils/ExpressError");
 const listing=require("./Routes/Listing");
 const review=require("./Routes/review");
+
+const userRoute=require("./Routes/user");
 const cookieParser=require("cookie-parser");
 const session =require("express-session")
+
+const passport=require("passport");
+const LocalStrategy=require("passport-local");
+const User=require("./Models/user");
 app.use(cookieParser());
 
 app.use(express.urlencoded({extended:true}));
@@ -35,13 +41,19 @@ const sessionOptions={
 }
 
 app.use(session(sessionOptions));
+app.use(passport.session());
+app.use(passport.initialize());
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 app.get("/",((req,res)=>{
     res.json({data:"APP is listneing"});
 }))
 
 app.use("/listings",listing);
-app.use("/listings/:id/review",review)
+app.use("/listings/:id/review",review);
+app.use("/",userRoute);
 
 
 

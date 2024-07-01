@@ -9,6 +9,7 @@ import NewListingForm from './Pages/NewListingForm'
 import EditListForm from './components/EditListForm'
 import Root from './main'
 import Error from './Pages/Error'
+import SignUpForm from './Pages/SignUpForm'
 
 
 const router=createBrowserRouter(
@@ -19,6 +20,7 @@ const router=createBrowserRouter(
           <Route path='/Listings/:id' element={<Showlisting/>}/>
           <Route path='/Listings/new' element={<NewListingForm/>}/>
           <Route path='/Listings/:id/edit' element={<EditListForm/>}/>
+          <Route path='/signUp' element={<SignUpForm/>}/>
           <Route path='/*' element={<Error/>}/>
     </Route>
 
