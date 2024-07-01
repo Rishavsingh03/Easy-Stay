@@ -18,6 +18,7 @@ router.get("/",wrapAsync(async (req,res)=>{
 router.get("/:id", wrapAsync(async(req,res)=>{
     let {id}=req.params;
     const result= await Listing.findById(id);
+    console.log("result of show listing");
     console.log(result);
 }))
 
@@ -42,7 +43,12 @@ router.post("/",
 router.get("/:id/edit",async (req,res)=>{
     const {id}=req.params;
     const initialData=await Listing.findById(id).populate("reviews");
-    res.json(initialData);
+    if(!initialData){
+       res.status(404).json("not found");
+    }
+    else{
+        res.json(initialData);
+    }
 })
 //update route
 

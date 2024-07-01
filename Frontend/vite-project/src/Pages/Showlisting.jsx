@@ -21,6 +21,10 @@ function Showlisting() {
           setLoading(true);
           const result=await fetch(url);
           const finalData=await result.json();
+          if(!result.ok){
+            toast.error("Listing does not exists");
+            navigate("/listings");
+          }
           setTitle(finalData.title);
           setDescription(finalData.description);
           setImage(finalData.image.url);
@@ -29,7 +33,6 @@ function Showlisting() {
           setPrice(finalData.price);
           setReviews(finalData.reviews);
           setLoading(false);
-         
       }
       catch(err){
           console.log(err);
@@ -74,10 +77,8 @@ function Showlisting() {
           body: JSON.stringify(review),
         })
         if(result.ok){
-         
-          window.location.reload();
-          navigate(`/listings/${id}`);
           toast.success("Review Added");
+          getData();
         }
       }
       catch(e){
@@ -94,9 +95,12 @@ function Showlisting() {
             },
         });
        
-        window.location.reload();
-        navigate(`/listings/${id}`);
-        toast.success("Review Deleted");
+        toast.success("Review Deleted",{
+          style:{
+            color:"red",
+          }
+        });
+        getData();
       }
       catch(e){
         console.log("can not delete review");
