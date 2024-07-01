@@ -4,8 +4,10 @@ const cors = require("cors");
 app.use(cors());
 const ExpressError=require("./utils/ExpressError");
 const listing=require("./Routes/Listing");
-
 const review=require("./Routes/review");
+const cookieParser=require("cookie-parser");
+const session =require("express-session")
+app.use(cookieParser());
 
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
@@ -20,6 +22,19 @@ async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/travelGuide');
 }
 
+const sessionOptions={
+    secret:"MySecret",
+    resave:false,
+    saveUninitialized:true,
+     cookie:{
+        expires:Date.now()+ 7*24*60*60*1000,
+        maxAge: 7*24*60*60*1000,
+        httpOnly:true,
+     }
+
+}
+
+app.use(session(sessionOptions));
 
 app.get("/",((req,res)=>{
     res.json({data:"APP is listneing"});
