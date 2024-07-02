@@ -1,6 +1,7 @@
 let Listing=require("../Models/listing");
 const express=require("express");
 const wrapAsync=require("../utils/wrapAsync");
+const  jwt = require("jsonwebtoken");
 const router=express.Router();
 
 router.use(express.urlencoded({extended:true}));
@@ -8,12 +9,19 @@ router.use(express.json());
 
 
 const ensureAuthenticated = (req, res, next) => {
-    if (req.isAuthenticated()) {
-      return next();
-    } else {
-      res.status(401).json({ message: 'You need to log in to view this page' });
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(401).json({ success: false, message: "invalid user,please login" });
     }
-  };
+    jwt.verify(token, "my-secret-key", (err, user) => {
+        if (err) {
+            return res.status(403).json({ success: false, message: "Invalid token" });
+        }
+        req.user = user;
+        next();
+    });
+};
+
 //index route
 router.get("/",wrapAsync(async (req,res)=>{
     const allListings = await Listing.find({});
@@ -29,8 +37,7 @@ router.get("/:id", wrapAsync(async(req,res)=>{
 }))
 
 //post data
-router.post("/", 
-   wrapAsync(async (req,res)=>{
+router.post("/",ensureAuthenticated, wrapAsync(async (req,res)=>{
         console.log("inside listings")
     let {title,description,image,price,location,country}=req.body;
         const newPlace= await Listing.create({
@@ -39,13 +46,14 @@ router.post("/",
         console.log(newPlace);
         return res.status(200).json({
             status: 201,
-            message: "User created successfully",
+            message: "Location added successfully",
             data: newPlace,
           });
 }))
 //add new listing
-router.get("/new", ensureAuthenticated, (req, res) => {
-    res.status(200).json("Logged in");
+router.get("/new",(req, res) => {
+    console.log("new");
+    res.json("ss");
   });
 
 

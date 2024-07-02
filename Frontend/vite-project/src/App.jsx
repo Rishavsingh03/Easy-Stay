@@ -11,7 +11,7 @@ import Root from './main'
 import Error from './Pages/Error'
 import SignUpForm from './Pages/SignUpForm'
 import LoginForm from './Pages/LoginForm'
-
+import Logout from './components/Logout'
 
 const router=createBrowserRouter(
   createRoutesFromElements(
@@ -23,6 +23,7 @@ const router=createBrowserRouter(
           <Route path='/Listings/:id/edit' element={<EditListForm/>}/>
           <Route path='/signUp' element={<SignUpForm/>}/>
           <Route path='/login' element={<LoginForm/>}/>
+          <Route path='/logout' element={<Logout/>}/>
           <Route path='/*' element={<Error/>}/>
     </Route>
 

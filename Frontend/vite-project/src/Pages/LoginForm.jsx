@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
+import {useSelector,useDispatch} from  'react-redux'
+import {login} from '../store/index'
 
 function LoginForm() {
+    const dispatch=useDispatch();
+    let isAuth=useSelector((state)=>state.auth.isloggedIn);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
@@ -41,6 +45,7 @@ function LoginForm() {
             if(!result.ok){
               throw new Error(`${data.message}`);
             }
+            dispatch(login(data.user.role));
             toast.success("Logged IN  Successfully");
             navigate("/listings");
           } catch (err) {

@@ -44,12 +44,14 @@ router.post('/login',(req,res)=>{
         if(user){
             bcrypt.compare(password,user.password,(err,response)=>{
                 if(response){
-                    const token=jwt.sign({username:user.username,role:user.role},
-                        "my-secret-key",{expiresIn: "1d" })
+                    const token=jwt.sign({id:user._id, username:user.username, role:user.role},
+                        "my-secret-key",{expiresIn: 60*60 })
                         res.cookie('token',token,{
                                     httpOnly: true,
-                                    secure: false,})  
-                     res.json({success:true,message:"Logged IN"});
+                                    secure: false,
+                                    expires:new Date(Date.now()+60*1000),
+                                })  
+                     res.json({success:true,message:"Logged IN",user:user});
                 }
                 else{
                     res.status(500).json({success:false,message:"Invalid Username or Password"});
@@ -62,5 +64,22 @@ router.post('/login',(req,res)=>{
     })
 
   });
+  router.post('/logout', (req, res) => {
+    res.clearCookie('token', { httpOnly: true, secure: false });
+    res.json({ success: true, message: "Logged out successfully" });
+});
+
+  router.get('/checkAuth', (req, res) => {
+    const token = req.cookies.token;
+    if (!token) {
+        return res.status(401).json({ success: false, message: "Not authenticated" });
+    }
+    jwt.verify(token, "my-secret-key", (err, user) => {
+        if (err) {
+            return res.status(403).json({ success: false, message: "Invalid token" });
+        }
+        res.json({ success: true, user });
+    });
+});
 
 module.exports=router;

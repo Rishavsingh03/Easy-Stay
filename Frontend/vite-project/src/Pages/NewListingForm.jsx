@@ -29,21 +29,18 @@ function NewListingForm() {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const response = await fetch('http://localhost:8080/listings/new', {
-          credentials: 'include',
-        });
+        const response = await fetch("http://localhost:8080/checkAuth", { credentials: 'include' });
         if (response.ok) {
           setAuthenticated(true);
         } else {
-          toast.error("You need to log in to add Listings");
-          navigate('/login');
+          toast.error("You need to login");
+          navigate("/login");
+
         }
-      } catch (err) {
-        console.error(err);
-        navigate('/login');
+      } catch (error) {
+        navigate("/login");
       }
     };
-
     checkAuthStatus();
   }, [navigate]);
 
@@ -80,7 +77,6 @@ function NewListingForm() {
   if (!isauthenticated) {
     return <div>Loading...</div>;
   }
-
   return (
     <div className='flex flex-1 flex-col justify-center items-center -mt-10'>
       <h3 className='w-9/12'>Create a new listing</h3>

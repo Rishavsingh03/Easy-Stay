@@ -1,10 +1,28 @@
-import React from 'react'
+import React, { useState,useEffect } from 'react'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import { useSelector } from 'react-redux';
 import { FaRegCompass } from "react-icons/fa";
 
+
 function Header() {
+  let isAuth=useSelector((state)=>state.auth.isloggedIn);
+  const [isauth,setIsauth]=useState(false);
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/checkAuth", { credentials: 'include' });
+        console.log(response);
+        if (response.ok) {
+          setIsauth(true);
+        }
+      } catch (error) {
+         setIsauth(false);
+      }
+    };
+    checkAuthStatus();
+  }, [isAuth]);
   return (
     <>
         <Navbar  bg="light" collapseOnSelect expand="md" className='h-20 border-bottom sticky-top' data-bs-theme="light">
@@ -16,6 +34,12 @@ function Header() {
             <Nav.Link href="/">Home</Nav.Link>
             <Nav.Link href="/Listings" className='remove-style'>All Listings</Nav.Link>
             <Nav.Link href="/Listings/new">Add Listings</Nav.Link>
+          </Nav>
+          <Nav className="ms-auto text-[#222222]">
+            {
+              isauth?(<Nav.Link href="/logout">Logout</Nav.Link>):(<Nav><Nav.Link href="/login">Login</Nav.Link>
+                <Nav.Link href="/signup" className='remove-style'>SignUp</Nav.Link></Nav>)
+            }
           </Nav>
           </Navbar.Collapse>
         </Container>
