@@ -7,7 +7,13 @@ router.use(express.urlencoded({extended:true}));
 router.use(express.json());
 
 
-
+const ensureAuthenticated = (req, res, next) => {
+    if (req.isAuthenticated()) {
+      return next();
+    } else {
+      res.status(401).json({ message: 'You need to log in to view this page' });
+    }
+  };
 //index route
 router.get("/",wrapAsync(async (req,res)=>{
     const allListings = await Listing.find({});
@@ -37,6 +43,10 @@ router.post("/",
             data: newPlace,
           });
 }))
+//add new listing
+router.get("/new", ensureAuthenticated, (req, res) => {
+    res.status(200).json("Logged in");
+  });
 
 
 //edit route

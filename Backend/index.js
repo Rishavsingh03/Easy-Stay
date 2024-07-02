@@ -1,17 +1,21 @@
 const express=require("express");
 const app=express();
 const cors = require("cors"); 
-app.use(cors());
+app.use(cors({
+    origin:["http://localhost:5173"],
+    methods:["GET","POST","DELETE","PUT"],
+    credentials:true,
+}));
 const ExpressError=require("./utils/ExpressError");
 const listing=require("./Routes/Listing");
 const review=require("./Routes/review");
 
 const userRoute=require("./Routes/user");
 const cookieParser=require("cookie-parser");
-const session =require("express-session")
+// const session =require("express-session")
 
-const passport=require("passport");
-const LocalStrategy=require("passport-local");
+// const passport=require("passport");
+// const LocalStrategy=require("passport-local");
 const User=require("./Models/user");
 app.use(cookieParser());
 
@@ -28,24 +32,24 @@ async function main() {
   await mongoose.connect('mongodb://127.0.0.1:27017/travelGuide');
 }
 
-const sessionOptions={
-    secret:"MySecret",
-    resave:false,
-    saveUninitialized:true,
-     cookie:{
-        expires:Date.now()+ 7*24*60*60*1000,
-        maxAge: 7*24*60*60*1000,
-        httpOnly:true,
-     }
+// const sessionOptions={
+//     secret:"MySecret",
+//     resave:false,
+//     saveUninitialized:true,
+//      cookie:{
+//         expires:Date.now()+ 7*24*60*60*1000,
+//         maxAge: 7*24*60*60*1000,
+//         httpOnly:true,
+//      }
 
-}
+// }
 
-app.use(session(sessionOptions));
-app.use(passport.session());
-app.use(passport.initialize());
-passport.use(new LocalStrategy(User.authenticate()));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+// app.use(session(sessionOptions));
+// app.use(passport.session());
+// app.use(passport.initialize());
+// passport.use(new LocalStrategy(User.authenticate()));
+// passport.serializeUser(User.serializeUser());
+// passport.deserializeUser(User.deserializeUser());
 
 app.get("/",((req,res)=>{
     res.json({data:"APP is listneing"});
