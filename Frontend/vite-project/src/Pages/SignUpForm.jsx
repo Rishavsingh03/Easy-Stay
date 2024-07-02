@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function SignUpForm() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [role,setRole]=useState("customer");
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
   
@@ -25,7 +26,7 @@ function SignUpForm() {
     
         if (Object.keys(validationErrors).length === 0) {
           const newUser = {
-            username, email, password
+            username, email, password,role
           };
           const url = "http://localhost:8080/signup";
           try {
@@ -37,11 +38,13 @@ function SignUpForm() {
               body: JSON.stringify(newUser),
             });
             const data=await result.json();
+            console.log(data);
+            console.log("result",result);
             if(!result.ok){
               throw new Error(`${data.message}`);
             }
             toast.success("User Registered  Successfully");
-            navigate("/signup");
+            navigate("/login");
           } catch (err) {
             toast.error(err.message);
             navigate("/signup");
@@ -95,10 +98,28 @@ function SignUpForm() {
         />
         {errors.password && <span className="text-red-500">{errors.password}</span>}
       </div>
+      <div className='flex flex-col gap-0'>
+        <label htmlFor='role'>Select your role</label>
+        <select
+          className='border-2 w-7/12 -mt-2'
+          name='role'
+          type='drpdown'
+          value={role}
+          onChange={(e) => {
+            setRole(e.target.value);
+          }}
+        >
+        <option value="cutomer">customer</option>
+        <option value="owner">owner</option>
+        </select>
+        {errors.password && <span className="text-red-500">{errors.password}</span>}
+      </div>
+      
       <div>
         <button className='bg-[#fe424d] text-white w-[80px] rounded-sm mt-2 p-1'>Register</button>
       </div>
       </form>
+      <Link to='/login'>Already registered</Link>
       </div>
   )
 }

@@ -29,18 +29,20 @@ function LoginForm() {
           try {
             const result = await fetch(url, {
               method: "POST",
+              credentials:'include',
               headers: {
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify(newUser),
             });
+            console.log("result",result);
             const data=await result.json();
             console.log(data);
             if(!result.ok){
-              throw new Error(`${data.error}`);
+              throw new Error(`${data.message}`);
             }
             toast.success("Logged IN  Successfully");
-            navigate("/login");
+            navigate("/listings");
           } catch (err) {
             toast.error(err.message);
             navigate("/login");

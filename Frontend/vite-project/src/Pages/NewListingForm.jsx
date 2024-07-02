@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
@@ -9,6 +9,7 @@ function NewListingForm() {
   const [price, setPrice] = useState("");
   const [location, setLocation] = useState("");
   const [country, setCountry] = useState("");
+  const[isauthenticated,setAuthenticated]=useState(false);
 
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
@@ -25,6 +26,26 @@ function NewListingForm() {
 
     return errors;
   };
+  useEffect(() => {
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch('http://localhost:8080/listings/new', {
+          credentials: 'include',
+        });
+        if (response.ok) {
+          setAuthenticated(true);
+        } else {
+          toast.error("You need to log in to add Listings");
+          navigate('/login');
+        }
+      } catch (err) {
+        console.error(err);
+        navigate('/login');
+      }
+    };
+
+    checkAuthStatus();
+  }, [navigate]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -56,6 +77,9 @@ function NewListingForm() {
       }
     }
   };
+  if (!isauthenticated) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className='flex flex-1 flex-col justify-center items-center -mt-10'>
