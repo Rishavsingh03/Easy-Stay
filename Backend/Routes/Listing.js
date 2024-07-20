@@ -32,7 +32,11 @@ router.get("/",wrapAsync(async (req,res)=>{
 //show route
 router.get("/:id", wrapAsync(async(req,res)=>{
     let {id}=req.params;
-    const initialData=await Listing.findById(id).populate("reviews").populate("owner");
+    const initialData=await Listing.findById(id).populate({path:"reviews"
+        ,populate:{
+            path:"author",
+        },
+    }).populate("owner");
     if(!initialData){
        res.status(404).json("not found");
     }

@@ -16,6 +16,7 @@ function Showlisting() {
     const[reviews,setReviews]=useState([]);
     const [owner,setOwner]=useState("");
     const [user,setUser]=useState("");
+    const[reviewAuthor,setreviewAuthor]=useState("");
     const navigate=useNavigate();
     const getData=async ()=>{
       try{
@@ -75,6 +76,7 @@ function Showlisting() {
         const url=`http://localhost:8080/listings/${id}/review`
         const result= await fetch(url,{
           method:"POST",
+          credentials:"include",
           headers: {
             'Content-Type': 'application/json',
           },
@@ -132,7 +134,6 @@ function Showlisting() {
       <h1>Loading Data</h1>
     )
   }
-  console.log(reviews);
   return (
     <div className='flex flex-1 flex-col justify-center items-center  mb-2'>
       <h3 className='w-7/12 sm:w-4/12 '>{title}</h3>
@@ -154,8 +155,8 @@ function Showlisting() {
           <button  className='p-2 w-24 bg-[#222222] text-white hover:opacity-85 rounded-lg' onClick={handleDelete}>Delete</button>
         </div>:<></>
         }
-        
-        <div>
+        {
+         user?<div>
           <hr/>
            <label htmlFor='rating' className='mr-3 font-serif'>Rating</label><br/>
            <input name='rating' className='cursor-pointer w-full' type='range' min={1} max={5} defaultValue={1} onChange={(e)=>{
@@ -168,21 +169,27 @@ function Showlisting() {
             }} required></textarea><br/>
             <button className='border-2 px-2 rounded-md hover:bg-[#fe424d] hover:text-white mt-2'>Submit</button>
            </form>
-        </div>
+        </div>:<></>
+        }
+        
         <div>
           <hr/>
           <h3> All reviews</h3>
            <div className='flex flex-wrap gap-3'>
             {
             reviews.map((review,index)=>{
+              console.log("review",review);
               return(
                 <div className='border-2 w-5/12 ' key={index}>
-                <h4 className='m-1'>John Rude</h4>
+                <h4 className='m-1'>{review.author.username}</h4>
                 <p className='m-1'>{review.comment} </p>
                 <p className='m-1'>{review.rating} star</p>
-                <button onClick={()=>{
+                {
+                  user==review.author.username? <button onClick={()=>{
                   deleteReviewHandler(review._id);
                 }} className='px-2 border-2 rounded-md w-1/2 m-1  hover:bg-[#fe424d] hover:text-white '>Delete</button>
+                :<></>
+                }
                 </div>
               )
             })
