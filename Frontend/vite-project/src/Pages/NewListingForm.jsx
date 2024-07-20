@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useLocation} from 'react-router-dom';
 
 function NewListingForm() {
   const [title, setTitle] = useState("");
@@ -10,6 +10,7 @@ function NewListingForm() {
   const [location, setLocation] = useState("");
   const [country, setCountry] = useState("");
   const[isauthenticated,setAuthenticated]=useState(false);
+  const locationState = useLocation();
 
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
@@ -34,11 +35,11 @@ function NewListingForm() {
           setAuthenticated(true);
         } else {
           toast.error("You need to login");
-          navigate("/login");
+          navigate("/login", { state: { from: locationState.pathname } });
 
         }
       } catch (error) {
-        navigate("/login");
+        navigate("/login", { state: { from: locationState.pathname } });
       }
     };
     checkAuthStatus();

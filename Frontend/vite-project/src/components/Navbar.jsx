@@ -5,12 +5,14 @@ import Navbar from 'react-bootstrap/Navbar';
 import { useDispatch, useSelector } from 'react-redux';
 import { FaRegCompass } from "react-icons/fa";
 import {logout} from '../store/index'
+import { useLocation } from 'react-router-dom';
 
 
 function Header() {
   let isAuth=useSelector((state)=>state.auth.isloggedIn);
   const dispatch=useDispatch();
   const [isauth,setIsauth]=useState(false);
+  const location=useLocation();
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
@@ -40,7 +42,7 @@ function Header() {
           </Nav>
           <Nav className="ms-auto text-[#222222]">
             {
-              isauth?(<Nav.Link href="/logout">Logout</Nav.Link>):(<Nav><Nav.Link href="/login">Login</Nav.Link>
+              isauth?(<Nav.Link href="/logout">Logout</Nav.Link>):(<Nav><Nav.Link href="/login" state={{ from: location.pathname }}>Login</Nav.Link>
                 <Nav.Link href="/signup" className='remove-style'>SignUp</Nav.Link></Nav>)
             }
           </Nav>

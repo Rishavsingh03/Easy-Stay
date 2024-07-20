@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useLocation} from 'react-router-dom';
 import {useSelector,useDispatch} from  'react-redux'
 import {login} from '../store/index'
 
@@ -11,6 +11,8 @@ function LoginForm() {
     const [password, setPassword] = useState("");
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
+    const location = useLocation();
+    const from = location.state?.from || "/";
   
     const validate = () => {
         const errors = {};
@@ -47,7 +49,14 @@ function LoginForm() {
             }
             dispatch(login(data.user.role));
             toast.success("Logged IN  Successfully");
-            navigate("/listings");
+            console.log("from",from);
+            if(from=="/"){
+              navigate("/Listings");
+            }
+            else{
+              navigate(from, { replace: true });
+            }
+            
           } catch (err) {
             toast.error(err.message);
             navigate("/login");
