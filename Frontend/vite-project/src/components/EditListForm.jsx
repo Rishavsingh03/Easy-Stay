@@ -83,8 +83,8 @@ function EditListForm() {
       } catch (err) {
           console.log(err);
           toast.error(err.message || "Unable to edit");
-          navigate(`/Listings/${id}/edit`);
-          toast.error("Unable to edit ,check data");
+          navigate(`/Listings/${id}`);
+          // toast.error("Unable to edit ,check data");
       }
     }
   };  
