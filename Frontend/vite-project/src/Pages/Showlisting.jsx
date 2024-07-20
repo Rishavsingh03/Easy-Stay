@@ -49,7 +49,8 @@ function Showlisting() {
       const url=`http://localhost:8080/Listings/${id}`;
       try{
         const result=await fetch(url,{
-          method:"DELETE",      
+          method:"DELETE",   
+          credentials:"include",   
             headers: {
                     'Content-Type': 'application/json',
             },
@@ -140,7 +141,7 @@ function Showlisting() {
           <img src={image} className='h-[230px] w-full object-cover rounded-md'></img>
           <p>Owned By - {owner}</p>
         </div>
-        
+    
         <div className='-mt-2'>
           <p className='mb-0'>{description}</p>
           <p className='mb-0'>&#8377;{price}</p>
@@ -148,7 +149,7 @@ function Showlisting() {
           <p className='mb-0'>{country}</p>
         </div>
         {
-           true?<div className='flex gap-8 mt-2'>
+           owner==user?<div className='flex gap-8 mt-2'>
           <button className='p-2 w-24 bg-[#fe424d] text-white hover:opacity-85 rounded-lg' onClick={handleEdit}>Edit</button>
           <button  className='p-2 w-24 bg-[#222222] text-white hover:opacity-85 rounded-lg' onClick={handleDelete}>Delete</button>
         </div>:<></>

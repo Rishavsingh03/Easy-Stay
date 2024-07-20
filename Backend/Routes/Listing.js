@@ -91,7 +91,7 @@ router.put("/:id",ensureAuthenticated,wrapAsync(async (req,res)=>{
     // console.log("usq",req.body);
     const {id}=req.params;
     let temp=await Listing.findById(id).populate("owner");
-    console.log("temp",temp);
+    // console.log("temp",temp);
     if(temp.owner.username!=req.user.username){
         res.status(500).json({success:false,message:"Invalid User"});
     }
@@ -107,11 +107,20 @@ router.put("/:id",ensureAuthenticated,wrapAsync(async (req,res)=>{
 }))
 
 //delete route
-router.delete("/:id",async(req,res)=>{
+router.delete("/:id",ensureAuthenticated,async(req,res)=>{
     console.log("reauest to  delete");
     const {id}=req.params;
-    const result=await Listing.findByIdAndDelete(id);
-    res.json(result);
+    let temp=await Listing.findById(id).populate("owner");
+    if(temp.owner.username!=req.user.username){
+        res.status(500).json({success:false,message:"Invalid User"});
+    }
+    else{
+
+        const result=await Listing.findByIdAndDelete(id);
+        console.log("deleted",result);
+        res.json(result);
+    }
+    
 })
 
 module.exports=router;
