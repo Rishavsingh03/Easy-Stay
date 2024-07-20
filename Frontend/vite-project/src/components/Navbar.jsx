@@ -2,12 +2,14 @@ import React, { useState,useEffect } from 'react'
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { FaRegCompass } from "react-icons/fa";
+import {logout} from '../store/index'
 
 
 function Header() {
   let isAuth=useSelector((state)=>state.auth.isloggedIn);
+  const dispatch=useDispatch();
   const [isauth,setIsauth]=useState(false);
   useEffect(() => {
     const checkAuthStatus = async () => {
@@ -18,6 +20,7 @@ function Header() {
           setIsauth(true);
         }
       } catch (error) {
+         dispatch(logout);
          setIsauth(false);
       }
     };

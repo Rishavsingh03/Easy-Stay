@@ -38,7 +38,7 @@ router.get("/:id", wrapAsync(async(req,res)=>{
 
 //post data
 router.post("/",ensureAuthenticated, wrapAsync(async (req,res)=>{
-        console.log("inside listings")
+    console.log("inside listings")
     let {title,description,image,price,location,country}=req.body;
         const newPlace= await Listing.create({
             title,description,image,price,location,country
