@@ -14,10 +14,12 @@ function Showlisting() {
     const[rating,setRating]=useState(0);
     const[comment,setComment]=useState("");
     const[reviews,setReviews]=useState([]);
+    const [owner,setOwner]=useState("");
+    const [user,setUser]=useState("");
     const navigate=useNavigate();
     const getData=async ()=>{
       try{
-          const url=`http://localhost:8080/listings/${id}/edit`;
+          const url=`http://localhost:8080/listings/${id}`;
           setLoading(true);
           const result=await fetch(url);
           const finalData=await result.json();
@@ -25,6 +27,7 @@ function Showlisting() {
             toast.error("Listing does not exists");
             navigate("/listings");
           }
+          setOwner(finalData.owner.username);
           setTitle(finalData.title);
           setDescription(finalData.description);
           setImage(finalData.image.url);
@@ -35,7 +38,7 @@ function Showlisting() {
           setLoading(false);
       }
       catch(err){
-          console.log(err);
+        console.log(err);
       }
       
     }
@@ -106,8 +109,22 @@ function Showlisting() {
         console.log("can not delete review");
       }
     }
+    const checkAuthStatus = async () => {
+      try {
+        const response = await fetch("http://localhost:8080/checkAuth", { credentials: 'include' });
+        console.log(response);
+        const data=await response.json();
+        if (response.ok) {
+          setUser(data.user.username);
+        }
+      } catch (error) {
+         dispatch(logout);
+         setIsauth(false);
+      }
+    };
   useEffect(()=>{
     getData();
+    checkAuthStatus();
   },[]);
   if(loading){
     return (
@@ -121,17 +138,22 @@ function Showlisting() {
       <div className='flex flex-col w-7/12 sm:w-4/12'>
         <div className='w-full'>
           <img src={image} className='h-[230px] w-full object-cover rounded-md'></img>
+          <p>Owned By - {owner}</p>
         </div>
-        <div>
+        
+        <div className='-mt-2'>
           <p className='mb-0'>{description}</p>
           <p className='mb-0'>&#8377;{price}</p>
           <p className='mb-0'>{loc}</p>
           <p className='mb-0'>{country}</p>
         </div>
-        <div className='flex gap-8 mt-2'>
+        {
+           true?<div className='flex gap-8 mt-2'>
           <button className='p-2 w-24 bg-[#fe424d] text-white hover:opacity-85 rounded-lg' onClick={handleEdit}>Edit</button>
           <button  className='p-2 w-24 bg-[#222222] text-white hover:opacity-85 rounded-lg' onClick={handleDelete}>Delete</button>
-        </div>
+        </div>:<></>
+        }
+        
         <div>
           <hr/>
            <label htmlFor='rating' className='mr-3 font-serif'>Rating</label><br/>

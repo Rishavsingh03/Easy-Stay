@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate ,useLocation} from 'react-router-dom';
 
 function EditListForm() {
   const [title, setTitle] = useState("");
@@ -13,12 +13,15 @@ function EditListForm() {
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
   const id = location.pathname.split("/").at(-2);
+  const locationState = useLocation();
 
   const getInitialData = async () => {
     try {
       const url = `http://localhost:8080/listings/${id}/edit`;
       setLoading(true);
-      const result = await fetch(url);
+      const result = await fetch(url,{
+        credentials:"include"
+      });
       const finalData = await result.json();
       setTitle(finalData.title);
       setDescription(finalData.description);
@@ -28,6 +31,8 @@ function EditListForm() {
       setPrice(finalData.price);
       setLoading(false);
     } catch (err) {
+      toast.error("Login Please");
+      navigate("/login", { state: { from: locationState.pathname }});
       console.log(err);
     }
   };
@@ -62,22 +67,27 @@ function EditListForm() {
       try {
         const result = await fetch(url, {
           method: "PUT",
+          credentials:"include",
           headers: {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify(changedPlace),
         });
+        let data=await result.json();
         if(!result.ok){
-          throw new Error(result.statusText);
+          console.log("error",data);
+          throw new Error(data.message);
         }
         toast.success("Listing Edited SuccessFully");
         navigate(`/Listings/${id}`);
       } catch (err) {
+          console.log(err);
           toast.error(err.message || "Unable to edit");
+          navigate(`/Listings/${id}/edit`);
           toast.error("Unable to edit ,check data");
       }
     }
-  };
+  };  
 
   if (loading) {
     return <div>Loading The form..</div>;

@@ -78,6 +78,7 @@ router.post('/login',(req,res)=>{
         if (err) {
             return res.status(403).json({ success: false, message: "Invalid token" });
         }
+        console.log(user);
         res.json({ success: true, user });
     });
 });
