@@ -1,7 +1,7 @@
 import React,{useEffect,useState} from 'react'  
 import toast from 'react-hot-toast';
 import {useNavigate } from 'react-router-dom';
-
+import '../assets/rating.css';
 function Showlisting() {
     const id=location.pathname.split("/").at(-1);
     const[loading,setLoading]=useState(false);
@@ -166,10 +166,26 @@ function Showlisting() {
         {
          user?<div>
           <hr/>
-           <label htmlFor='rating' className='mr-3 font-serif'>Rating</label><br/>
+           {/* <label htmlFor='rating' className='mr-3 font-serif'>Rating</label><br/>
            <input name='rating' className='cursor-pointer w-full' type='range' min={1} max={5} defaultValue={1} onChange={(e)=>{
             setRating(e.target.value);
-           }}/>
+           }}/> */}
+           <fieldset onChange={(e)=>{
+             setRating(e.target.value);
+           }} class="starability-checkmark">
+            <legend className='mr-3 font-serif'>Rating:</legend>
+            <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="1" checked aria-label="No rating." />
+            <input type="radio" id="first-rate1" name="rating" value="1" />
+            <label for="first-rate1" title="Terrible">1 star</label>
+            <input type="radio" id="first-rate2" name="rating" value="2" />
+            <label for="first-rate2" title="Not good">2 stars</label>
+            <input type="radio" id="first-rate3" name="rating" value="3" />
+            <label for="first-rate3" title="Average">3 stars</label>
+            <input type="radio" id="first-rate4" name="rating" value="4" />
+            <label for="first-rate4" title="Very good">4 stars</label>
+            <input type="radio" id="first-rate5" name="rating" value="5" />
+            <label for="first-rate5" title="Amazing">5 stars</label>
+          </fieldset>
            <form onSubmit={formSunmitHandler}>
             <label htmlFor='comment' className='place-content-start'>Comments</label><br/>
             <textarea name='comment' className='border-2 w-full' rows={4} placeholder='Write a review' onChange={(e)=>{
@@ -190,8 +206,8 @@ function Showlisting() {
               return(
                 <div className='border-2 w-5/12 ' key={index}>
                 <h4 className='m-1'>@{review.author.username}</h4>
+                <p class="starability-result" data-rating={review.rating}></p>
                 <p className='m-1'>{review.comment} </p>
-                <p className='m-1'>{review.rating} star</p>
                 {
                   user==review.author.username? <button onClick={()=>{
                   deleteReviewHandler(review._id);
