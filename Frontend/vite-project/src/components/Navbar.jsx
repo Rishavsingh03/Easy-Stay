@@ -32,18 +32,24 @@ function Header() {
     <>
         <Navbar  bg="light" collapseOnSelect expand="md" className='h-20 border-bottom sticky-top' data-bs-theme="light">
         <Container className='m-0 '>
-          <Navbar.Brand href="/"><FaRegCompass className='text-[#fe424d] text-[32px]' /></Navbar.Brand>
+          <Navbar.Brand href="/Listings"><FaRegCompass className='text-[#fe424d] text-[32px]' /></Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
           <Navbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto text-[#222222]">
-            <Nav.Link href="/">Home</Nav.Link>
-            <Nav.Link href="/Listings" className='remove-style'>All Listings</Nav.Link>
-            <Nav.Link href="/Listings/new">Add Listings</Nav.Link>
+            <Nav.Link href="/Listings" className='remove-style'>Explore</Nav.Link>
+            <Nav.Link href="/Listings/new">Add Your Place</Nav.Link>
+          </Nav>
+          <Nav>
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2 rounded-full" type="search" placeholder="Search Destination" aria-label="Search"/>
+                <button class="btn rounded-full  my-2 my-sm-0 text-white opacity-85 hover:opacity-100 bg-[#fe424d]" type="submit">Search</button>
+            </form>
           </Nav>
           <Nav className="ms-auto text-[#222222]">
+        
             {
-              isauth?(<Nav.Link href="/logout">Logout</Nav.Link>):(<Nav><Nav.Link href="/login" state={{ from: location.pathname }}>Login</Nav.Link>
-                <Nav.Link href="/signup" className='remove-style'>SignUp</Nav.Link></Nav>)
+              isauth?(<Nav.Link href="/logout"><b>Logout</b></Nav.Link>):(<Nav><Nav.Link href="/login" state={{ from: location.pathname }}><b>Login</b></Nav.Link>
+                <Nav.Link href="/signup" className='remove-style'><b>SignUp</b></Nav.Link></Nav>)
             }
           </Nav>
           </Navbar.Collapse>

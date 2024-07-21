@@ -15,7 +15,7 @@ function Footer() {
         <FaLinkedinIn  size={20}  />
         </div>
         <div className='flex justify-center items-center gap-1'>
-        <FaRegCopyright size={15} /> Wanderlust Private Limited
+        <FaRegCopyright size={15} /> Easy Stay Private Limited
         </div>
         <div className='flex item-center justify-center gap-4'>
           <Link to="/privacy" className='text-[#222222] no-underline hower:underline'>Privacy</Link>

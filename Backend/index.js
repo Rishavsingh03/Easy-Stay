@@ -1,6 +1,7 @@
 const express=require("express");
 const app=express();
 const cors = require("cors"); 
+require('dotenv').config()
 app.use(cors({
     origin:["http://localhost:5173"],
     methods:["GET","POST","DELETE","PUT"],
@@ -12,6 +13,8 @@ const review=require("./Routes/review");
 
 const userRoute=require("./Routes/user");
 const cookieParser=require("cookie-parser");
+
+const dbUrl=process.env.ATLAS_DB_URL;   
 // const session =require("express-session")
 
 // const passport=require("passport");
@@ -29,7 +32,7 @@ main().then(()=>{
 }).catch(err => console.log(err));
 
 async function main() {
-  await mongoose.connect('mongodb://127.0.0.1:27017/travelGuide');
+  await mongoose.connect(dbUrl);
 }
 
 app.get("/",((req,res)=>{

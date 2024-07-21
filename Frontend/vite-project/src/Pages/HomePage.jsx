@@ -1,10 +1,11 @@
 import React from 'react'
 import { useEffect,useState } from 'react'
 import toast from 'react-hot-toast';
+import { Link,useNavigate,useNavigation } from 'react-router-dom';
 
 function HomePage() {
     const [data,setData] =useState(null);
-
+    const navigate=useNavigate();
     const getHomeDate=async ()=>{
       const url="http://localhost:8080/Listings";
       try{
@@ -26,7 +27,8 @@ function HomePage() {
     }
 
     useEffect(()=>{
-      getHomeDate();
+      navigate('/Listings');
+      // getHomeDate();
     },[])
   return (
     <div>{data}</div>
