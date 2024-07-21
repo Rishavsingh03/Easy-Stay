@@ -96,20 +96,26 @@ function Showlisting() {
       try{
         let result=await fetch(url,{
           method:"DELETE",
+          credentials:'include',
           headers: {
                     'Content-Type': 'application/json',
             },
         });
-       
-        toast.success("Review Deleted",{
-          style:{
-            color:"red",
-          }
-        });
-        getData();
+        let data=await result.json();
+        if(result.ok){
+          toast.success("Review Deleted",{
+            style:{
+              color:"red",
+            }
+          });
+          getData();
+        }
+        else{
+          throw new Error(data.message);
+        }
       }
       catch(e){
-        console.log("can not delete review");
+        console.log(e.message||"Can not delete");
       }
     }
     const checkAuthStatus = async () => {
@@ -181,7 +187,7 @@ function Showlisting() {
               console.log("review",review);
               return(
                 <div className='border-2 w-5/12 ' key={index}>
-                <h4 className='m-1'>{review.author.username}</h4>
+                <h4 className='m-1'>@{review.author.username}</h4>
                 <p className='m-1'>{review.comment} </p>
                 <p className='m-1'>{review.rating} star</p>
                 {

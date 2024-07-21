@@ -16,7 +16,7 @@ const ensureAuthenticated = (req, res, next) => {
     }
     jwt.verify(token, "my-secret-key", (err, user) => {
         if (err) {
-            return res.status(403).json({ success: false, message: "Invalid token" });
+            return res.status(403).json({ success: false, message: "Not Authorized" });
         }
         req.user=user;
         next();
@@ -41,14 +41,19 @@ router.post("/",ensureAuthenticated,async (req,res)=>{
 
 //delete review
 
-router.delete("/:rid",async (req,res)=>{
-    console.log("rddd");
+router.delete("/:rid",ensureAuthenticated,async (req,res)=>{
     let {id,rid}=req.params;
-    let listing= await Listing.findByIdAndUpdate(id,{$pull:{reviews:rid}});
-    let review= await Review.findByIdAndDelete(rid);
-    console.log(listing);
-    console.log(review);
-    res.send("review deleted successfully");
+    let user=req.user.id;
+    let temp=await Review.findById(rid);
+    if(user==temp.author){
+        let listing= await Listing.findByIdAndUpdate(id,{$pull:{reviews:rid}});
+        let review= await Review.findByIdAndDelete(rid);
+        res.send("review deleted successfully");
+    }
+    else{
+        res.status(500).json({success:false,message:"Not authorized"})
+    }
+    
 })
 
 
