@@ -24,7 +24,10 @@ module.exports.showroute=async(req,res)=>{
 module.exports.postData=async (req,res)=>{
     let {title,description,image,price,location,country}=req.body;
     let owner=req.user.id;
-        const newPlace= await Listing.create({
+    let url=req.file.path;
+    let filename=req.file.filename;
+    image={url,filename};
+    const newPlace= await Listing.create({
             title,description,image,price,location,country,owner
         });
         console.log(newPlace);
@@ -32,7 +35,7 @@ module.exports.postData=async (req,res)=>{
             status: 201,
             message: "Location added successfully",
             data: newPlace,
-          });
+    });
 }
 
 module.exports.editRoute=async (req,res)=>{

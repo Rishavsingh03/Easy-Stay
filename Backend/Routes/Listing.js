@@ -1,12 +1,13 @@
-let Listing=require("../Models/listing");
+
 const express=require("express");
 const wrapAsync=require("../utils/wrapAsync");
 const  jwt = require("jsonwebtoken");
 const router=express.Router();
-
 router.use(express.urlencoded({extended:true}));
 router.use(express.json());
-
+const multer  = require('multer');
+const { storage }=require("../cloudConfig");
+const upload = multer({ storage });
 const listingController=require("../controllers/listing");
 const ensureAuthenticated = (req, res, next) => {
     const token = req.cookies.token;
@@ -29,9 +30,8 @@ router.get("/",wrapAsync(listingController.index));
 router.get("/:id", wrapAsync(listingController.showroute));
 
 //post data
-router.post("/",ensureAuthenticated, wrapAsync(listingController.postData));
-
-//edit route
+router.post("/",ensureAuthenticated,upload.single('image'), wrapAsync(listingController.postData));
+//edit route 
 router.get("/:id/edit",listingController.editRoute);
 //update route
 
