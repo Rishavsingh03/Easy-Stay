@@ -102,6 +102,8 @@ function Showlisting() {
             },
         });
         let data=await result.json();
+        console.log("result",result);
+        console.log("data",data);
         if(result.ok){
           toast.success("Review Deleted",{
             style:{
@@ -115,7 +117,7 @@ function Showlisting() {
         }
       }
       catch(e){
-        console.log(e.message||"Can not delete");
+        console.log(e.message|| "Can not delete");
       }
     }
     const checkAuthStatus = async () => {
