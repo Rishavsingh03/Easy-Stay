@@ -59,11 +59,20 @@ module.exports.updateRoute=async (req,res)=>{
         res.status(500).json({success:false,message:"Invalid User"});
     }
     else{
-        const { image,loc, ...rest } = req.body;
-        let img=image;
-        const imag={filename: "listingimage",url:`${img}`};
-        const data = { location: loc,image:imag, ...rest };
+        let data=req.body;
         const result=await Listing.findByIdAndUpdate(id,data);
+        if(typeof(req.file)!="undefined"){
+            let url=req.file.path;
+            let filename=req.file.filename;
+            result.image={url,filename};
+            await result.save();
+        }
+        else{
+            let url=temp.image.url;
+            let filename=temp.image.filename;
+            result.image={url,filename};
+            await result.save();
+        }
         res.json(result);
     }
     

@@ -5,7 +5,7 @@ import { useNavigate ,useLocation} from 'react-router-dom';
 function EditListForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [image, setImage] = useState("");
+  const [image, setImage] = useState(null);
   const [price, setPrice] = useState("");
   const [loc, setLocation] = useState("");
   const [country, setCountry] = useState("");
@@ -46,7 +46,6 @@ function EditListForm() {
 
     if (!title) errors.title = "Title is required";
     if (!description) errors.description = "Description is required";
-    if (image && !/^https?:\/\/.+\..+$/.test(image)) errors.image = "Enter a valid URL";
     if (!price || isNaN(price) || price <= 0) errors.price = "Price must be a positive number";
     if (!loc) errors.location = "Location is required";
     if (!country) errors.country = "Country is required";
@@ -60,18 +59,19 @@ function EditListForm() {
     setErrors(validationErrors);
 
     if (Object.keys(validationErrors).length === 0) {
-      const changedPlace = {
-        title, description, image, price, loc, country
-      };
+      const formData = new FormData();
+      formData.append('title', title);
+      formData.append('description', description);
+      formData.append('image', image);
+      formData.append('price', price);
+      formData.append('location', loc);
+      formData.append('country', country);
       const url = `http://localhost:8080/Listings/${id}`;
       try {
         const result = await fetch(url, {
           method: "PUT",
           credentials:"include",
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(changedPlace),
+          body: formData,
         });
         let data=await result.json();
         if(!result.ok){
@@ -94,9 +94,9 @@ function EditListForm() {
   }
 
   return (
-    <div className='flex flex-1 flex-col justify-center items-center -mt-10'>
+    <div className='flex  flex-col justify-center items-center -mt-6 mb-3'>
       <h3 className='w-9/12'>Edit a listing</h3>
-      <form onSubmit={submitHandler} className='flex flex-col gap-1 w-9/12'>
+      <form onSubmit={submitHandler} className='flex flex-col gap-1 w-9/12' encType='multipart/form-data'>
         <div className='flex flex-col gap-0'>
           <label htmlFor="title">Title</label>
           <input
@@ -125,16 +125,20 @@ function EditListForm() {
           ></textarea>
           {errors.description && <span className="text-red-500">{errors.description}</span>}
         </div>
+        <div>
+           <p>Original Image</p>
+          <img  className='h-40 w-40' src={`${image}`}></img>
+        </div>
 
         <div className='flex flex-col gap-0'>
-          <label htmlFor='img'>Enter Image Url</label>
+          <label htmlFor='img'>Upload New  Image</label>
           <input
+            id='img'
             className='border-2 w-7/12 -mt-2'
             name='image'
-            type='text'
-            value={image}
+            type='file'
             onChange={(e) => {
-              setImage(e.target.value);
+              setImage(e.target.files[0]);
               setErrors((prevErrors) => ({ ...prevErrors, image: "" }));
             }}
           />

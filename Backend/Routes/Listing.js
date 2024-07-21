@@ -35,7 +35,7 @@ router.post("/",ensureAuthenticated,upload.single('image'), wrapAsync(listingCon
 router.get("/:id/edit",listingController.editRoute);
 //update route
 
-router.put("/:id",ensureAuthenticated,wrapAsync(listingController.updateRoute));
+router.put("/:id",ensureAuthenticated,upload.single('image'),wrapAsync(listingController.updateRoute));
 
 //delete route
 router.delete("/:id",ensureAuthenticated,listingController.deleteRoute);
