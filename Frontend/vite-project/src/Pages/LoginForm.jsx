@@ -18,7 +18,7 @@ function LoginForm() {
         const errors = {};
     
         if (!username) errors.username = "Username is required";
-        if (!password) errors.password = "Password a valid URL";
+        if (!password) errors.password = "Password is required";
     
         return errors;
     };
@@ -87,7 +87,7 @@ function LoginForm() {
           className='border-2 w-7/12 -mt-2'
           name='password'
           type='password'
-          placeholder='Enter image URL/LINK'
+          placeholder='Password'
           onChange={(e) => {
             setPassword(e.target.value);
             setErrors((prevErrors) => ({ ...prevErrors,password: "" }));
