@@ -41,7 +41,7 @@ module.exports.login=(req,res)=>{
 
                                res.cookie('token',token,{
                                     httpOnly: true,
-                                    secure:process.env.NODE_ENV === 'production',
+                                    secure:false,
                                     expires:new Date(Date.now()+60*60*1000),
                                 })  
                      res.json({success:true,message:"Logged IN",user:user});

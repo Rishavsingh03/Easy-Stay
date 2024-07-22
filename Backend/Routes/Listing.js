@@ -14,7 +14,7 @@ const ensureAuthenticated = (req, res, next) => {
     if (!token) {
         return res.status(401).json({ success: false, message: "invalid user,please login" });
     }
-    jwt.verify(token, process.env.JWT_SECRET_TOKEN, (err, user) => {
+    jwt.verify(token,process.env.JWT_SECRET_TOKEN, (err, user) => {
         if (err) {
             return res.status(403).json({ success: false, message: "Invalid token" });
         }
