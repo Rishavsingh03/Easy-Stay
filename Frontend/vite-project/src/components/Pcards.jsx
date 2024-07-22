@@ -10,8 +10,8 @@ function Pcards(data) {
   return (
     <div className='hover:opacity-80 w-3/4 sm:w-auto'>
       <Link to={`/Listings/${_id}`} className='no-underline'>
-      <Card style={{ width: '20rem' ,border:"0"}}>
-      <Card.Img variant="top" src={image.url} style={{height:'20rem',objectFit:"cover", borderRadius:"0.5rem"}} />
+      <Card style={{width:'100%', maxwidth: '20rem' ,border:"0"}}>
+      <Card.Img variant="top" src={image.url} style={{ height:'15rem',maxheight:'20rem',objectFit:"cover", borderRadius:"0.5rem"}} />
       <Card.Body style={{marginTop:"-0.5rem"}}>
         <Card.Title>{title}</Card.Title>
         <Card.Text style={{marginTop:"-0.5rem"}}>
