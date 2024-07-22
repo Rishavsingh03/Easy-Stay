@@ -1,7 +1,7 @@
 const User=require("../Models/user");
 const bcrypt=require("bcrypt");
 const jwt=require("jsonwebtoken");
-
+require('dotenv').config();
 module.exports.signup=async (req,res)=>{
     try{
         let {username,email,password,role}=req.body;
