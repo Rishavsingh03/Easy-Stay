@@ -205,14 +205,14 @@ function Showlisting() {
             reviews.map((review,index)=>{
               console.log("review",review);
               return(
-                <div className='border-2 w-5/12 ' key={index}>
+                <div className='border-2 sm:w-5/12  w-auto' key={index}>
                 <h4 className='m-1'>@{review.author.username}</h4>
                 <p className="starability-result" data-rating={review.rating}></p>
                 <p className='m-1'>{review.comment} </p>
                 {
                   user==review.author.username? <button onClick={()=>{
                   deleteReviewHandler(review._id);
-                }} className='px-2 border-2 rounded-md w-1/2 m-1  hover:bg-[#fe424d] hover:text-white '>Delete</button>
+                }} className='px-2 border-2 rounded-md sm:w-1/2 w-auto m-1  hover:bg-[#fe424d] hover:text-white '>Delete</button>
                 :<></>
                 }
                 </div>
