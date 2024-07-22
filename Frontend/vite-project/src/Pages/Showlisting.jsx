@@ -21,7 +21,7 @@ function Showlisting() {
     const navigate=useNavigate();
     const getData=async ()=>{
       try{
-          const url=`http://localhost:8080/listings/${id}`;
+          const url=`${serverUrl}/listings/${id}`;
           setLoading(true);
           const result=await fetch(url);
           const finalData=await result.json();
@@ -124,8 +124,8 @@ function Showlisting() {
     const checkAuthStatus = async () => {
       try {
         const response = await fetch(`${serverUrl}/checkAuth`, { credentials: 'include' });
-        console.log(response);
         const data=await response.json();
+        console.log("dada",data);
         if (response.ok) {
           setUser(data.user.username);
         }

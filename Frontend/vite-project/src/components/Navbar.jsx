@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { FaRegCompass } from "react-icons/fa";
 import {logout} from '../store/index'
 import { useLocation } from 'react-router-dom';
-
+import  {serverUrl} from '../assets/assets'
 
 function Header() {
   let isAuth=useSelector((state)=>state.auth.isloggedIn);
@@ -16,7 +16,7 @@ function Header() {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const response = await fetch("http://localhost:8080/checkAuth", { credentials: 'include' });
+        const response = await fetch(`${serverUrl}/checkAuth`, { credentials: 'include' });
         if (response.ok) {
           setIsauth(true);
         }

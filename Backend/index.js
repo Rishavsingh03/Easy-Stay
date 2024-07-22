@@ -2,11 +2,12 @@ const express=require("express");
 const app=express();
 const cors = require("cors"); 
 require('dotenv').config()
-app.use(cors({
-    origin:["http://localhost:5173"],
-    methods:["GET","POST","DELETE","PUT"],
-    credentials:true,
-}));
+const PORT=process.env.PORT || 4000;
+// app.use(cors({
+//     origin:["http://localhost:5173"],
+//     methods:["GET","POST","DELETE","PUT"],
+//     credentials:true,
+// }));
 const ExpressError=require("./utils/ExpressError");
 const listing=require("./Routes/Listing");
 const review=require("./Routes/review");
@@ -54,6 +55,6 @@ app.use((err,req,res,next)=>{
     res.status(statusCode).send(message);
 })
 
-app.listen(8080,(()=>{
+app.listen(PORT,(()=>{
     console.log("app is listening");
 }))
