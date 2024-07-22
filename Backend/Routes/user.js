@@ -18,6 +18,7 @@ router.post('/logout', userController.logout);
 router.get('/checkAuth', (req, res) => {
     console.log("inside auth");
     const token = req.cookies.token;
+    console.log("token",token);
     if (!token) {
         return res.status(401).json({ success: false, message: "Not authenticated" });
     }
