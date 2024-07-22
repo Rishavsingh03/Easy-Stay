@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import { useSelector,useDispatch } from 'react-redux';
 import {logout} from '../store/index'
-
+import{serverUrl} from '../assets/assets'
 const Logout = () => {
   let isAuth=useSelector((state)=>state.auth.isloggedIn);
   const dispatch=useDispatch();
@@ -11,13 +11,13 @@ const Logout = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch('http://localhost:8080/logout', {
+      const response = await fetch(`${serverUrl}/logout`, {
         method: 'POST',
         credentials: 'include', // Include cookies in the request
       });
       if (response.ok) {
         toast.success('Logged out successfully');
-        dispatch(logout);
+        // dispatch(logout);
         navigate('/listings');
       } else {
         toast.error('Failed to log out');

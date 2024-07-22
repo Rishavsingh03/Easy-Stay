@@ -30,7 +30,7 @@ function NewListingForm() {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const response = await fetch(`${serverUrl}/checkAuth`, { credentials: 'include' });
+        const response = await fetch(`${serverUrl}/checkAuth`, {method:"POST", credentials: 'include' });
         if (response.ok) {
           setAuthenticated(true);
         } 
@@ -40,7 +40,6 @@ function NewListingForm() {
 
         }
       } catch (error) {
-        console.log("Addwef",error);
         toast.error(error.message);
         navigate("/login", { state: { from: locationState.pathname } });
       }

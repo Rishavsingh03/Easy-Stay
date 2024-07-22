@@ -59,6 +59,6 @@ module.exports.login=(req,res)=>{
 
 }
 module.exports.logout=(req, res) => {
-    res.clearCookie('token', { httpOnly: true, secure: false });
+    res.clearCookie('token', { httpOnly: true, secure:process.env.NODE_ENV === 'production', sameSite: 'None' });
     res.json({ success: true, message: "Logged out successfully" });
 }
