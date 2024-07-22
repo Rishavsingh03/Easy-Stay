@@ -37,10 +37,10 @@ module.exports.login=(req,res)=>{
             bcrypt.compare(password,user.password,(err,response)=>{
                 if(response){
                     const token=jwt.sign({id:user._id, username:user.username, role:user.role},
-                        "my-secret-key",{expiresIn: 60*60 })
+                        "my-secret-key",{expiresIn: 60*60*1000 })
                         res.cookie('token',token,{
                                     httpOnly: true,
-                                    secure: false,
+                                    secure:process.env.NODE_ENV === 'production',
                                     expires:new Date(Date.now()+60*60*1000),
                                 })  
                      res.json({success:true,message:"Logged IN",user:user});
