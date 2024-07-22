@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
-
+import {serverUrl} from '../assets/assets'
 function SignUpForm() {
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
