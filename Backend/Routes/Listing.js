@@ -32,7 +32,7 @@ router.get("/:id", wrapAsync(listingController.showroute));
 //post data
 router.post("/",ensureAuthenticated,upload.single('image'), wrapAsync(listingController.postData));
 //edit route 
-router.get("/:id/edit",listingController.editRoute);
+router.get("/:id/edit",ensureAuthenticated,listingController.editRoute);
 //update route
 
 router.put("/:id",ensureAuthenticated,upload.single('image'),wrapAsync(listingController.updateRoute));

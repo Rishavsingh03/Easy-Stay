@@ -19,7 +19,7 @@ module.exports.signup=async (req,res)=>{
                     res.json(err);
                 })
             }).catch(err=>{
-                res.json({success:false,message:"Unable to stoore password"});
+                res.json({success:false,message:"Unable to store password"});
             })
         }  
     }
@@ -37,8 +37,9 @@ module.exports.login=(req,res)=>{
             bcrypt.compare(password,user.password,(err,response)=>{
                 if(response){
                     const token=jwt.sign({id:user._id, username:user.username, role:user.role},
-                        "my-secret-key",{expiresIn: 60*60*1000 })
-                        res.cookie('token',token,{
+                        process.env.JWT_SECRET_TOKEN,{expiresIn: 60*60*1000 })
+
+                               res.cookie('token',token,{
                                     httpOnly: true,
                                     secure:process.env.NODE_ENV === 'production',
                                     expires:new Date(Date.now()+60*60*1000),
