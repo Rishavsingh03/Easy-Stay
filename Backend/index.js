@@ -3,11 +3,12 @@ const app=express();
 const cors = require("cors"); 
 require('dotenv').config()
 const PORT=process.env.PORT || 4000;
-// app.use(cors({
-//     origin:["http://localhost:5173"],
-//     methods:["GET","POST","DELETE","PUT"],
-//     credentials:true,
-// }));
+app.use(cors({
+    origin:["http://localhost:5173"],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials:true,
+}));
 const ExpressError=require("./utils/ExpressError");
 const listing=require("./Routes/Listing");
 const review=require("./Routes/review");
@@ -16,10 +17,6 @@ const userRoute=require("./Routes/user");
 const cookieParser=require("cookie-parser");
 
 const dbUrl=process.env.ATLAS_DB_URL;   
-// const session =require("express-session")
-
-// const passport=require("passport");
-// const LocalStrategy=require("passport-local");
 const User=require("./Models/user");
 app.use(cookieParser());
 

@@ -7,6 +7,7 @@ module.exports.index=async (req,res)=>{
 }
 
 module.exports.showroute=async(req,res)=>{
+    console.log("lsitings:");
     let {id}=req.params;
     const initialData=await Listing.findById(id).populate({path:"reviews"
         ,populate:{
