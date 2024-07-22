@@ -20,7 +20,7 @@ router.post('/checkAuth', (req, res) => {
     const token = req.cookies.token;
     console.log("token",token);
     if (!token) {
-        return res.status(402).json({ success: false, message: "Not authenticated" });
+        return res.status(500).json({ success: false, message: "Not authenticated" });
     }
     jwt.verify(token, "my-secret-key", (err, user) => {
         if (err) {

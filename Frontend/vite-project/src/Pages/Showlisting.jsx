@@ -123,7 +123,7 @@ function Showlisting() {
     }
     const checkAuthStatus = async () => {
       try {
-        const response = await fetch(`${serverUrl}/checkAuth`, { credentials: 'include' });
+        const response = await fetch(`${serverUrl}/checkAuth`, {method:"POST", credentials: 'include' });
         const data=await response.json();
         console.log("dada",data);
         if (response.ok) {
@@ -207,7 +207,7 @@ function Showlisting() {
               return(
                 <div className='border-2 w-5/12 ' key={index}>
                 <h4 className='m-1'>@{review.author.username}</h4>
-                <p class="starability-result" data-rating={review.rating}></p>
+                <p className="starability-result" data-rating={review.rating}></p>
                 <p className='m-1'>{review.comment} </p>
                 {
                   user==review.author.username? <button onClick={()=>{
