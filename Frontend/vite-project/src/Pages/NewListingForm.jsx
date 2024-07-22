@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate ,useLocation} from 'react-router-dom';
-
+import {serverUrl} from '../assets/assets'
 function NewListingForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -30,20 +30,23 @@ function NewListingForm() {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const response = await fetch("http://localhost:8080/checkAuth", { credentials: 'include' });
+        const response = await fetch(`${serverUrl}/checkAuth`, { credentials: 'include' });
         if (response.ok) {
           setAuthenticated(true);
-        } else {
+        } 
+        else {
           toast.error("You need to login");
           navigate("/login", { state: { from: locationState.pathname } });
 
         }
       } catch (error) {
+        console.log("Addwef",error);
+        toast.error(error.message);
         navigate("/login", { state: { from: locationState.pathname } });
       }
     };
     checkAuthStatus();
-  }, [navigate]);
+  }, [navigate]); 
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -58,7 +61,7 @@ function NewListingForm() {
       formData.append('price', price);
       formData.append('location', location);
       formData.append('country', country);
-      const url = "http://localhost:8080/Listings";
+      const url =  `${serverUrl}/Listings`;
       try {
         const result = await fetch(url, {
           method: "POST",

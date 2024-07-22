@@ -3,12 +3,13 @@ import { useState,useEffect} from 'react';
 import {useNavigate} from  'react-router-dom'
 import Pcards from '../components/Pcards';
 import toast from 'react-hot-toast';
+import {serverUrl} from '../assets/assets'
 function Listing() {
     const [data,setData]=useState([]);
     const [loading,setLoading]=useState(false);
     const navigate=useNavigate();
     const showListing=async() =>{
-        const url="http://localhost:8080/listings";
+        const url=`${serverUrl}/listings`;
       try{
           setLoading(true);
           let result=await fetch(url,{

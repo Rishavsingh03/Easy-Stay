@@ -3,7 +3,7 @@ import toast from 'react-hot-toast';
 import { useNavigate ,useLocation} from 'react-router-dom';
 import {useSelector,useDispatch} from  'react-redux'
 import {login} from '../store/index'
-
+import {serverUrl} from '../assets/assets'
 function LoginForm() {
     const dispatch=useDispatch();
     let isAuth=useSelector((state)=>state.auth.isloggedIn);
@@ -31,7 +31,7 @@ function LoginForm() {
           const newUser = {
             username, password
           };
-          const url = "http://localhost:8080/login";
+          const url = `${serverUrl}/login`;
           try {
             const result = await fetch(url, {
               method: "POST",
@@ -49,7 +49,6 @@ function LoginForm() {
             }
             dispatch(login(data.user.role));
             toast.success("Logged IN  Successfully");
-            console.log("from",from);
             if(from=="/"){
               navigate("/Listings");
             }

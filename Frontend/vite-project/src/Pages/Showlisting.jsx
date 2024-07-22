@@ -2,6 +2,7 @@ import React,{useEffect,useState} from 'react'
 import toast from 'react-hot-toast';
 import {useNavigate } from 'react-router-dom';
 import '../assets/rating.css';
+import {serverUrl} from '../assets/assets'
 function Showlisting() {
     const id=location.pathname.split("/").at(-1);
     const[loading,setLoading]=useState(false);
@@ -47,7 +48,7 @@ function Showlisting() {
       navigate(`/Listings/${id}/edit`);
     }
     const handleDelete=async()=>{
-      const url=`http://localhost:8080/Listings/${id}`;
+      const url=`${serverUrl}/Listings/${id}`;
       try{
         const result=await fetch(url,{
           method:"DELETE",   
@@ -73,7 +74,7 @@ function Showlisting() {
       e.preventDefault();
       const review={comment,rating};
       try{
-        const url=`http://localhost:8080/listings/${id}/review`
+        const url=`${serverUrl}/listings/${id}/review`
         const result= await fetch(url,{
           method:"POST",
           credentials:"include",
@@ -92,7 +93,7 @@ function Showlisting() {
       }
     }
     const deleteReviewHandler=async(rid)=>{
-      let url=`http://localhost:8080/listings/${id}/review/${rid}`;
+      let url=`${serverUrl}/listings/${id}/review/${rid}`;
       try{
         let result=await fetch(url,{
           method:"DELETE",
@@ -122,7 +123,7 @@ function Showlisting() {
     }
     const checkAuthStatus = async () => {
       try {
-        const response = await fetch("http://localhost:8080/checkAuth", { credentials: 'include' });
+        const response = await fetch(`${serverUrl}/checkAuth`, { credentials: 'include' });
         console.log(response);
         const data=await response.json();
         if (response.ok) {

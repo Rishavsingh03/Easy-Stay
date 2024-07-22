@@ -17,7 +17,7 @@ function EditListForm() {
 
   const getInitialData = async () => {
     try {
-      const url = `http://localhost:8080/listings/${id}/edit`;
+      const url = `${serverUrl}/listings/${id}/edit`;
       setLoading(true);
       const result = await fetch(url,{
         credentials:"include"
@@ -66,7 +66,7 @@ function EditListForm() {
       formData.append('price', price);
       formData.append('location', loc);
       formData.append('country', country);
-      const url = `http://localhost:8080/Listings/${id}`;
+      const url = `${serverUrl}/Listings/${id}`;
       try {
         const result = await fetch(url, {
           method: "PUT",

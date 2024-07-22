@@ -28,7 +28,7 @@ function SignUpForm() {
           const newUser = {
             username, email, password,role
           };
-          const url = "http://localhost:8080/signup";
+          const url = `${serverUrl}/signup`;
           try {
             const result = await fetch(url, {
               method: "POST",

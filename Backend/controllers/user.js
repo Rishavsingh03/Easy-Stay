@@ -10,7 +10,6 @@ module.exports.signup=async (req,res)=>{
             res.status(500).json({success:false,message:"Username already exists"});
         }
         else{
-            console.log(req.body);
             bcrypt.hash(password,10)
             .then(hash=>{
                 User.create({username,email,password:hash,role})
