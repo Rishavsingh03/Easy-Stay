@@ -42,7 +42,7 @@ function Listing() {
     <div>
     {
         loading?"<h1>Loading DATA</h1>":
-        <div className='flex flex-wrap justify-center gap-3'>
+        <div className='flex flex-wrap justify-center sm:gap-3 overflow-x-hidden'>
         {
         data.map((d)=>{
             return(

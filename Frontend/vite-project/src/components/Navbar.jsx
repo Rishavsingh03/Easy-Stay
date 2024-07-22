@@ -36,7 +36,7 @@ function Header() {
   }, [isAuth]);
   return (
     <>
-        <Navbar  bg="light" collapseOnSelect expand="md" className='h-20 border-bottom sticky-top' data-bs-theme="light">
+        <Navbar  bg="light" collapseOnSelect expand="md" className='min-h-20 border-bottom sticky-top' data-bs-theme="light">
         <Container className='m-0 '>
           <Navbar.Brand href="/Listings"><FaRegCompass className='text-[#fe424d] text-[32px]' /></Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
