@@ -41,12 +41,18 @@ module.exports.postData=async (req,res)=>{
 
 module.exports.editRoute=async (req,res)=>{
     const {id}=req.params;
-    const initialData=await Listing.findById(id).populate("reviews");
+    const initialData=await Listing.findById(id).populate("reviews").populate("owner");
     if(!initialData){
        res.status(404).json("not found");
     }
     else{
-        res.json(initialData);
+        if(req.user.id==initialData.owner._id){
+            res.json(initialData);
+        }
+        else{
+            res.status(402).json({success:false,message:"Invalid User"});
+        }
+       
     }
 }
 

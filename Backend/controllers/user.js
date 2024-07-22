@@ -31,7 +31,7 @@ module.exports.signup=async (req,res)=>{
 
 module.exports.login=(req,res)=>{
     const {username,password} =req.body;
-    console.log("jey verify", process.env.JWT_SECRET_TOKEN);
+    console.log("jey verify",process.env.JWT_SECRET_TOKEN,process.env.PORT);
     User.findOne({username:username})
     .then(user=>{
         if(user){
