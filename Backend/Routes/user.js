@@ -15,12 +15,12 @@ router.post('/login',userController.login);
 
 router.post('/logout', userController.logout);
 
-router.get('/checkAuth', (req, res) => {
+router.post('/checkAuth', (req, res) => {
     console.log("inside auth");
     const token = req.cookies.token;
     console.log("token",token);
     if (!token) {
-        return res.status(401).json({ success: false, message: "Not authenticated" });
+        return res.status(402).json({ success: false, message: "Not authenticated" });
     }
     jwt.verify(token, "my-secret-key", (err, user) => {
         if (err) {

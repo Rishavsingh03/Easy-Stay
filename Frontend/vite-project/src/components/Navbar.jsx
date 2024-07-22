@@ -16,11 +16,18 @@ function Header() {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const response = await fetch(`${serverUrl}/checkAuth`, { credentials: 'include' });
+        const response = await fetch(`${serverUrl}/checkAuth`, {
+          method:"POST",
+          credentials: 'include'
+        });
         if (response.ok) {
           setIsauth(true);
         }
+        else{
+          console.log("not logged in");
+        }
       } catch (error) {
+        console.log(error);
          dispatch(logout);
          setIsauth(false);
       }
@@ -39,9 +46,9 @@ function Header() {
             <Nav.Link href="/Listings/new">Add Your Place</Nav.Link>
           </Nav>
           <Nav>
-            <form class="form-inline my-2 my-lg-0">
-                <input class="form-control mr-sm-2 rounded-full" type="search" placeholder="Search Destination" aria-label="Search"/>
-                <button class="btn rounded-full  my-2 my-sm-0 text-white opacity-85 hover:opacity-100 bg-[#fe424d]" type="submit">Search</button>
+            <form className="form-inline my-2 my-lg-0">
+                <input className="form-control mr-sm-2 rounded-full" type="search" placeholder="Search Destination" aria-label="Search"/>
+                <button className="btn rounded-full  my-2 my-sm-0 text-white opacity-85 hover:opacity-100 bg-[#fe424d]" type="submit">Search</button>
             </form>
           </Nav>
           <Nav className="ms-auto text-[#222222]">
