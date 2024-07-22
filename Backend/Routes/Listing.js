@@ -11,6 +11,7 @@ const upload = multer({ storage });
 const listingController=require("../controllers/listing");
 const ensureAuthenticated = (req, res, next) => {
     const token = req.cookies.token;
+    console.log("token ensureauth ",token);
     if (!token) {
         return res.status(401).json({ success: false, message: "invalid user,please login" });
     }
