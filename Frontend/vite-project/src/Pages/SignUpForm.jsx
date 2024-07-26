@@ -49,7 +49,7 @@ function SignUpForm() {
             if(!result.ok){
               throw new Error(`${data.message}`);
             }
-            dispatch(login(token));
+            dispatch(login(data.token));
             localStorage.setItem("token",token);
             toast.success("User Registered  Successfully");
             toast.success("Logged IN  Successfully");
