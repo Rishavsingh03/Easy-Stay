@@ -43,13 +43,15 @@ function SignUpForm() {
               body: JSON.stringify(newUser),
             });
             const data=await result.json();
+            const token=data.token;
             // console.log(data);
             // console.log("result",result);
 
             if(!result.ok){
               throw new Error(`${data.message}`);
             }
-            dispatch(login(data.token));
+            console.log("inside signup token = ",token);
+            dispatch(login(token));
             localStorage.setItem("token",token);
             toast.success("User Registered  Successfully");
             toast.success("Logged IN  Successfully");
