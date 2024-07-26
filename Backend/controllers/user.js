@@ -14,10 +14,19 @@ module.exports.signup=async (req,res)=>{
             .then(hash=>{
                 User.create({username,email,password:hash,role})
                 .then(user=>{
-                    return res.json({status:"Success"})
+                        const token=jwt.sign({id:user._id, username:user.username, role:user.role},
+                        process.env.JWT_SECRET_TOKEN,{expiresIn: 60*60*1000 })
+
+                            //    res.cookie('token',token,{
+                            //         httpOnly: true,
+                            //         secure:process.env.NODE_ENV === 'production',
+                            //         expires:new Date(Date.now()+60*60*1000),
+                            //         sameSite: 'None'
+                            //     })  
+                    res.json({success:true,message:"Signed IN",token});
                 }).catch(err=>{
                     res.json(err);
-                })
+                })  
             }).catch(err=>{
                 res.json({success:false,message:"Unable to store password"});
             })
@@ -39,13 +48,13 @@ module.exports.login=(req,res)=>{
                     const token=jwt.sign({id:user._id, username:user.username, role:user.role},
                         process.env.JWT_SECRET_TOKEN,{expiresIn: 60*60*1000 })
 
-                               res.cookie('token',token,{
-                                    httpOnly: true,
-                                    secure:process.env.NODE_ENV === 'production',
-                                    expires:new Date(Date.now()+60*60*1000),
-                                    sameSite: 'None'
-                                })  
-                     res.json({success:true,message:"Logged IN",user:user});
+                            //    res.cookie('token',token,{
+                            //         httpOnly: true,
+                            //         secure:process.env.NODE_ENV === 'production',
+                            //         expires:new Date(Date.now()+60*60*1000),
+                            //         sameSite: 'None'
+                            //     })  
+                     res.json({success:true,message:"Logged IN",token});
                 }
                 else{
                     res.status(500).json({success:false,message:"Invalid Username or Password"});
