@@ -16,8 +16,12 @@ function Header() {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
+        const token=localStorage.getItem("token");
         const response = await fetch(`${serverUrl}/checkAuth`, {
           method:"POST",
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
           credentials: 'include'
         });
         if (response.ok) {

@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
 import { Link, useNavigate } from 'react-router-dom';
+import {useSelector,useDispatch} from  'react-redux'
 import {serverUrl} from '../assets/assets'
+import {login,logout} from '../store/index'
 function SignUpForm() {
+    const dispatch=useDispatch();
+    let isAuth=useSelector((state)=>state.auth.isloggedIn);
     const [username, setUsername] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [role,setRole]=useState("customer");
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
+
   
     const validate = () => {
         const errors = {};
@@ -38,19 +43,26 @@ function SignUpForm() {
               body: JSON.stringify(newUser),
             });
             const data=await result.json();
-            console.log(data);
-            console.log("result",result);
+            // console.log(data);
+            // console.log("result",result);
+
             if(!result.ok){
               throw new Error(`${data.message}`);
             }
+            dispatch(login(token));
+            localStorage.setItem("token",token);
             toast.success("User Registered  Successfully");
-            navigate("/login");
+            toast.success("Logged IN  Successfully");
+            navigate("/Listings");
           } catch (err) {
             toast.error(err.message);
             navigate("/signup");
           }
         }
       };
+      if(isAuth){
+        navigate('/Listings');
+      }
   return (
     <div className='flex flex-1 flex-col justify-center items-center -mt-10'>
     <h3 className='w-9/12'>Sign Up On Easy Stay</h3>

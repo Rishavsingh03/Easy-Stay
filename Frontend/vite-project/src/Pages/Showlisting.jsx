@@ -19,6 +19,7 @@ function Showlisting() {
     const [user,setUser]=useState("");
     const[reviewAuthor,setreviewAuthor]=useState("");
     const navigate=useNavigate();
+    const token=localStorage.getItem("token");
     const getData=async ()=>{
       try{
           const url=`${serverUrl}/listings/${id}`;
@@ -50,10 +51,12 @@ function Showlisting() {
     const handleDelete=async()=>{
       const url=`${serverUrl}/Listings/${id}`;
       try{
+       
         const result=await fetch(url,{
           method:"DELETE",   
           credentials:"include",   
             headers: {
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
             },
         });
@@ -79,8 +82,9 @@ function Showlisting() {
           method:"POST",
           credentials:"include",
           headers: {
-            'Content-Type': 'application/json',
-          },
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+            },
           body: JSON.stringify(review),
         })
         if(result.ok){
@@ -99,12 +103,11 @@ function Showlisting() {
           method:"DELETE",
           credentials:'include',
           headers: {
+                    'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json',
             },
         });
         let data=await result.json();
-        console.log("result",result);
-        console.log("data",data);
         if(result.ok){
           toast.success("Review Deleted",{
             style:{
@@ -123,7 +126,9 @@ function Showlisting() {
     }
     const checkAuthStatus = async () => {
       try {
-        const response = await fetch(`${serverUrl}/checkAuth`, {method:"POST", credentials: 'include' });
+        const response = await fetch(`${serverUrl}/checkAuth`, {method:"POST",headers: {
+                    'Authorization': `Bearer ${token}`,
+            }, credentials: 'include' });
         const data=await response.json();
         console.log("dada",data);
         if (response.ok) {
@@ -175,7 +180,7 @@ function Showlisting() {
              setRating(e.target.value);
            }} class="starability-checkmark">
             <legend className='mr-3 font-serif'>Rating:</legend>
-            <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="1" checked aria-label="No rating." />
+            <input type="radio" id="no-rate" className="input-no-rate" name="rating" value="1" checked aria-label="No rating." />
             <input type="radio" id="first-rate1" name="rating" value="1" />
             <label for="first-rate1" title="Terrible">1 star</label>
             <input type="radio" id="first-rate2" name="rating" value="2" />

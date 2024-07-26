@@ -11,17 +11,22 @@ const Logout = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(`${serverUrl}/logout`, {
-        method: 'POST',
-        credentials: 'include', // Include cookies in the request
-      });
-      if (response.ok) {
-        toast.success('Logged out successfully');
-        // dispatch(logout);
-        navigate('/listings');
-      } else {
-        toast.error('Failed to log out');
-      }
+      // const token=localStorage.getItem("token");
+      localStorage.removeItem("token");
+      dispatch(logout());
+      toast.success('Logged out successfully');
+      navigate('/listings');
+      // const response = await fetch(`${serverUrl}/logout`, {
+      //   method: 'POST',
+      //   credentials: 'include', // Include cookies in the request
+      // });
+      // if (response.ok) {
+      //   toast.success('Logged out successfully');
+      //   // dispatch(logout);
+      //   navigate('/listings');
+      // } else {
+      //   toast.error('Failed to log out');
+      // }
     } catch (error) {
       toast.error('An error occurred');
     }

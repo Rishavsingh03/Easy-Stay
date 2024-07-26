@@ -19,8 +19,12 @@ function EditListForm() {
     try {
       const url = `${serverUrl}/listings/${id}/edit`;
       setLoading(true);
+      const token=localStorage.getItem("token");
       const result = await fetch(url,{
-        credentials:"include"
+        credentials:"include",
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
       });
       const finalData = await result.json();
       setTitle(finalData.title);
@@ -68,8 +72,12 @@ function EditListForm() {
       formData.append('country', country);
       const url = `${serverUrl}/Listings/${id}`;
       try {
+        const token=localStorage.getItem("token");
         const result = await fetch(url, {
           method: "PUT",
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
           credentials:"include",
           body: formData,
         });

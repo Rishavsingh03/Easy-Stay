@@ -4,10 +4,16 @@ import {useNavigate} from  'react-router-dom'
 import Pcards from '../components/Pcards';
 import toast from 'react-hot-toast';
 import {serverUrl} from '../assets/assets'
+import {useSelector,useDispatch} from  'react-redux'
+import {login,logout} from '../store/index'
 function Listing() {
+    const dispatch=useDispatch();
+    let isAuth=useSelector((state)=>state.auth.isloggedIn);
+    let token=useSelector((state)=>state.auth.token);
     const [data,setData]=useState([]);
     const [loading,setLoading]=useState(false);
     const navigate=useNavigate();
+
     const showListing=async() =>{
         const url=`${serverUrl}/listings`;
       try{
@@ -31,6 +37,9 @@ function Listing() {
       }
     }
     useEffect(()=>{
+        if(localStorage.getItem("token")){
+         dispatch(login(localStorage.getItem("token")));
+        }
         showListing();
     },[])
     if(loading){

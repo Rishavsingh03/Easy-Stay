@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import toast from 'react-hot-toast';
-import { useNavigate ,useLocation} from 'react-router-dom';
+import { useNavigate ,useLocation,Link} from 'react-router-dom';
 import {useSelector,useDispatch} from  'react-redux'
-import {login} from '../store/index'
 import {serverUrl} from '../assets/assets'
+import {login,logout} from '../store/index'
 function LoginForm() {
     const dispatch=useDispatch();
     let isAuth=useSelector((state)=>state.auth.isloggedIn);
@@ -41,13 +41,15 @@ function LoginForm() {
               },
               body: JSON.stringify(newUser),
             });
-            console.log("result",result);
+            // console.log("result",result);
             const data=await result.json();
-            console.log(data);
+            const token=data.token;
+            // console.log(data);
             if(!result.ok){
               throw new Error(`${data.message}`);
             }
-            dispatch(login(data.user.role));
+            dispatch(login(token));
+            localStorage.setItem("token",token);
             toast.success("Logged IN  Successfully");
             if(from=="/"){
               navigate("/Listings");
@@ -99,6 +101,7 @@ function LoginForm() {
         <button className='bg-[#fe424d] text-white w-[80px] rounded-sm mt-2 p-1'>Login</button>
       </div>
       </form>
+      <Link to='/signup'>Not  registered</Link>
       </div>
   )
 }

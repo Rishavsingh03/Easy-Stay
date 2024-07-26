@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import toast from 'react-hot-toast';
 import { useNavigate ,useLocation} from 'react-router-dom';
 import {serverUrl} from '../assets/assets'
+import {useSelector,useDispatch} from  'react-redux'
 function NewListingForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
@@ -11,7 +12,8 @@ function NewListingForm() {
   const [country, setCountry] = useState("");
   const[isauthenticated,setAuthenticated]=useState(false);
   const locationState = useLocation();
-
+  let isAuth=useSelector((state)=>state.auth.isloggedIn);
+  
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
@@ -30,7 +32,10 @@ function NewListingForm() {
   useEffect(() => {
     const checkAuthStatus = async () => {
       try {
-        const response = await fetch(`${serverUrl}/checkAuth`, {method:"POST", credentials: 'include' });
+        const token=localStorage.getItem("token");
+        const response = await fetch(`${serverUrl}/checkAuth`, {method:"POST", headers: {
+                        'Authorization': `Bearer ${token}`
+                    },credentials: 'include' });
         if (response.ok) {
           setAuthenticated(true);
         } 
@@ -62,17 +67,19 @@ function NewListingForm() {
       formData.append('country', country);
       const url =  `${serverUrl}/Listings`;
       try {
+        let token=localStorage.getItem("token");
         const result = await fetch(url, {
           method: "POST",
+          headers: {
+            'Authorization': `Bearer ${token}`
+          },
           credentials:'include',
           body:formData,
         });
-        console.log("result",result);
         let data=await result.json();
         if(!result.ok){
           throw new Error(result.statusText);
         }
-        console.log("data",data);
         toast.success("Listing created Successfully");
         navigate("/Listings");
       } catch (err) {

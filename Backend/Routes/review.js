@@ -10,8 +10,7 @@ router.use(express.json());
 const reviewController=require("../controllers/review");
 
 const ensureAuthenticated = (req, res, next) => {
-    console.log("us");
-    const token = req.cookies.token;
+    const token = req.headers['authorization'].split(' ')[1];
     if (!token) {
         return res.status(401).json({ success: false, message: "invalid user,please login" });
     }
